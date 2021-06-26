@@ -42,6 +42,7 @@ class TB(Model):
                 "ChonInfectMP": lambda m: m.schedule.get_breed_count(ChronInfectMP),
                 "ActivatedMP": lambda m: m.schedule.get_breed_count(ActivatedMP),
                 "T": lambda m: m.schedule.get_breed_count(T),
+                "BE": lambda m: np.sum(m.env.BE),
             }
         )
 

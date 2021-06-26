@@ -1,9 +1,60 @@
+import numpy as np
 from mesa.visualization.ModularVisualization import ModularServer
-from mesa.visualization.modules import CanvasGrid, ChartModule
+from mesa.visualization.modules import CanvasGrid, ChartModule, TextElement
 from mesa.visualization.UserParam import UserSettableParameter
 
-from TB.agents import Env, T, RestMP, InfectMP, ChronInfectMP, ActivatedMP, Source
+from TB.agents import ActivatedMP, ChronInfectMP, Env, InfectMP, RestMP, Source, T
 from TB.model import TB
+
+
+class RMP(TextElement):
+    def __init__(self):
+        pass
+
+    def render(self, model):
+        return "Rest MP: " + str(model.schedule.get_breed_count(RestMP))
+
+
+class IMP(TextElement):
+    def __init__(self):
+        pass
+
+    def render(self, model):
+        return "Infected MP: " + str(model.schedule.get_breed_count(InfectMP))
+
+
+class CIMP(TextElement):
+    def __init__(self):
+        pass
+
+    def render(self, model):
+        return "Chronicly Infected MP: " + str(
+            model.schedule.get_breed_count(ChronInfectMP)
+        )
+
+
+class AMP(TextElement):
+    def __init__(self):
+        pass
+
+    def render(self, model):
+        return "Activated MP: " + str(model.schedule.get_breed_count(ActivatedMP))
+
+
+class T_stat(TextElement):
+    def __init__(self):
+        pass
+
+    def render(self, model):
+        return "T: " + str(model.schedule.get_breed_count(T))
+
+
+class BE(TextElement):
+    def __init__(self):
+        pass
+
+    def render(self, model):
+        return "Bacteria number: " + str(np.sum(model.env.BE))
 
 
 def TB_portrayal(agent):
@@ -81,5 +132,33 @@ model_params = {
     ),
 }
 """
-server = ModularServer(TB, [canvas_element], "TB")
+RMP_counting = RMP()
+IMP_counting = IMP()
+CIMP_counting = CIMP()
+AMP_counting = AMP()
+T_counting = T_stat()
+
+line_chart = ChartModule(
+    [
+        {"Label": "RestMP", "Color": "Black"},
+        {"Label": "InfectMP", "Color": "Blue"},
+        {"Label": "ChonInfectMP", "Color": "Red"},
+        {"Label": "ActivatedMP", "Color": "Green"},
+        {"Label": "T", "Color": "Purple"},
+        {"Label": "BE", "Color": "Orange"},
+    ]
+)
+server = ModularServer(
+    TB,
+    [
+        canvas_element,
+        RMP_counting,
+        IMP_counting,
+        CIMP_counting,
+        AMP_counting,
+        T_counting,
+        line_chart,
+    ],
+    "TB",
+)
 server.port = 8521

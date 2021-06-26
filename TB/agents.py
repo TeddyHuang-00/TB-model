@@ -282,7 +282,7 @@ class InfectMP(MP):
         self.B_I = pow(1 + para.alpha_BI, para.k) * self.B_I
 
         # Become chronically infected
-        if self.B_I > para.N_c:
+        if np.sum(self.B_I) > para.N_c:
             self.model.grid._remove_agent(self.pos, self)
             self.model.schedule.remove(self)
             chinMP = ChronInfectMP(
@@ -299,7 +299,7 @@ class InfectMP(MP):
             if random.random() < len(ngh_T) * 0.25:
                 self.model.grid._remove_agent(self.pos, self)
                 self.model.schedule.remove(self)
-                actMP = ActivatedtMP(
+                actMP = ActivatedMP(
                     self.model.next_id(), self.pos, self.model, self.moore
                 )
                 self.model.grid.place_agent(actMP, self.pos)
@@ -345,7 +345,7 @@ class ChronInfectMP(MP):
 
         # Aging & Bursting
         self.age += 1
-        if self.age >= para.M_rls or self.B_I > para.K_BI:
+        if self.age >= para.M_rls or np.sum(self.B_I) > para.K_BI:
             x, y = self.pos
             self.model.env.BE[x - 1 : x + 2, y - 1 : y + 2] += self.B_I / 9
             self.model.grid._remove_agent(self.pos, self)
