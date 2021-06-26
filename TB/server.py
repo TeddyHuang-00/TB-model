@@ -135,17 +135,16 @@ IMP_counting = IMP()
 CIMP_counting = CIMP()
 AMP_counting = AMP()
 T_counting = T_stat()
+Necrosis_counting = Necro()
 
-line_chart = ChartModule(
-    [
-        {"Label": "RestMP", "Color": "Black"},
-        {"Label": "InfectMP", "Color": "Blue"},
-        {"Label": "ChonInfectMP", "Color": "Red"},
-        {"Label": "ActivatedMP", "Color": "Green"},
-        {"Label": "T", "Color": "Purple"},
-        {"Label": "Necrosis", "Color": "Orange"},
-    ]
-)
+RMP_line_chart = ChartModule([{"Label": "RestMP", "Color": "Black"}])
+IMP_line_chart = ChartModule([{"Label": "InfectMP", "Color": "Blue"}])
+CIMP_line_chart = ChartModule([{"Label": "ChonInfectMP", "Color": "Red"}])
+AMP_line_chart = ChartModule([{"Label": "ActivatedMP", "Color": "Green"}])
+T_line_chart = ChartModule([{"Label": "T", "Color": "Purple"}])
+Necrosis_line_chart = ChartModule([{"Label": "Necrosis", "Color": "Cyan"}])
+BE_line_chart = ChartModule([{"Label": "BE", "Color": "Orange"}])
+
 canvas_element = CanvasGrid(TB_portrayal, 100, 100, 500, 500)
 server = ModularServer(
     TB,
@@ -156,7 +155,14 @@ server = ModularServer(
         CIMP_counting,
         AMP_counting,
         T_counting,
-        line_chart,
+        Necrosis_counting,
+        RMP_line_chart,
+        IMP_line_chart,
+        CIMP_line_chart,
+        AMP_line_chart,
+        T_line_chart,
+        Necrosis_line_chart,
+        BE_line_chart,
     ],
     "TB",
 )
