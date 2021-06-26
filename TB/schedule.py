@@ -66,8 +66,12 @@ class RandomActivationByBreed(RandomActivation):
         agent_keys = list(self.agents_by_breed[breed].keys())
         self.model.random.shuffle(agent_keys)
         for agent_key in agent_keys:
-            if (self.agents_by_breed[breed][agent_key].start_time < self.time and \
-            self.agents_by_breed[breed][agent_key].time % self.agents_by_breed[breed][agent_key].oneStep == 0):
+            if (
+                self.agents_by_breed[breed][agent_key].start_time < self.time
+                and self.agents_by_breed[breed][agent_key].time
+                % self.agents_by_breed[breed][agent_key].oneStep
+                == 0
+            ):
                 self.agents_by_breed[breed][agent_key].timeRestore()
                 self.agents_by_breed[breed][agent_key].step()
             else:
